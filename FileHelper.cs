@@ -18,6 +18,7 @@ namespace Permutation_Based_Compression
             catch (Exception ex)
             {
                 Console.WriteLine($"Hata dosya okunurken: {ex.Message}");
+
                 return null;
             }
         }
