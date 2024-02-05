@@ -9,14 +9,12 @@ namespace Permutation_Based_Compression
     {
         public static byte[] ApplyPermutation(byte[] inputData)
         {
-            // Permutasyon uygulama işlemleri burada gerçekleştirilecek
-            return new byte[0]; // Örnek dönüş değeri, gerçek uygulamada değişecektir.
+            return new byte[0];
         }
 
         public static byte[] ReversePermutation(byte[] inputData)
         {
-            // Permutasyonun tersini alma işlemleri burada gerçekleştirilecek
-            return new byte[0]; // Örnek dönüş değeri, gerçek uygulamada değişecektir.
+            return new byte[0]; 
         }
     }
 

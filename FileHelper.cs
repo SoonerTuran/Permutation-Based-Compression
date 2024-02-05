@@ -11,7 +11,6 @@ namespace Permutation_Based_Compression
     {
         public static byte[] ReadFile(string path)
         {
-            // Dosyayı byte dizisi olarak okur
             try
             {
                 return File.ReadAllBytes(path);
@@ -25,7 +24,6 @@ namespace Permutation_Based_Compression
 
         public static void WriteFile(byte[] data, string path)
         {
-            // Byte dizisini dosyaya yazar
             try
             {
                 File.WriteAllBytes(path, data);

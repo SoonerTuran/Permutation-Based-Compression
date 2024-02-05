@@ -9,14 +9,12 @@ namespace Permutation_Based_Compression
     {
         public byte[] Compress(byte[] inputData)
         {
-            // Sıkıştırma işlemleri burada gerçekleştirilecek
-            return new byte[0]; // Örnek dönüş değeri, gerçek uygulamada değişecektir.
+            return new byte[0];
         }
 
         public byte[] Decompress(byte[] inputData)
         {
-            // Genişletme işlemleri burada gerçekleştirilecek
-            return new byte[0]; // Örnek dönüş değeri, gerçek uygulamada değişecektir.
+            return new byte[0];
         }
     }
 
