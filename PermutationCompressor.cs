@@ -8,9 +8,11 @@ namespace Permutation_Based_Compression
 {
     public class PermutationCompressor
     {
-        public byte[] Compress(byte[] inputData)
+        public (byte[] data, int[] histogram) Compress(byte[] inputData)
         {
+            var histogramSave = TransformationHelper.CalculateHistogram(inputData);
             var histogram = TransformationHelper.CalculateHistogram(inputData);
+            var sorted = inputData.OrderBy(x => x).ToList();
             var combinationCount = TransformationHelper.CalculateCombinationCount(inputData);
 
             BigInteger firstRange = 0, lastRange = combinationCount, groupWidth = 0;
@@ -25,23 +27,20 @@ namespace Permutation_Based_Compression
             }
 
             var permutationCount = firstRange + groupWidth;
-            return permutationCount.ToByteArray();
+
+            return (permutationCount.ToByteArray(), histogramSave);
         }
 
-        public byte[] Decompress(byte[] inputData, Dictionary<byte, int> histogram)
+        public byte[] Decompress(byte[] inputData, int[] histogram)
         {
-
-            // Continue
-            /*
-            int lenght = histogram.Sum(kvp => kvp.Value);
+            var sortedList = TransformationHelper.ExpandHistogram(histogram);
+            int lenght = sortedList.Count;
 
             BigInteger permutationOrder = new BigInteger(inputData);
-
-            var sortedArray = imageArray.OrderBy(x => x).ToArray();
-
-            var combinationCount = TransformationHelper.CalculateCombinationCount(histogram);
-
+            BigInteger combinationCount = TransformationHelper.CalculateCombinationCount(sortedList.ToArray());
             BigInteger firstRange = 0, lastRange = combinationCount;
+
+            var decompressedArray = new byte[lenght];
 
             for (int i = 0; i < lenght; i++)
             {
@@ -51,16 +50,18 @@ namespace Permutation_Based_Compression
 
                 BigInteger quotient = BigInteger.DivRem(permutationOrder - firstRange - 1, groupWidth, out BigInteger remainder);
 
-                var indexRange = FindValueIndicesUsingBinarySearch(sortedArray, decompressedArray[i]);
-                firstRange += indexRange[0] * groupWidth;
-                lastRange -= (lenght - i - 1 - indexRange[1]) * groupWidth;
+                var key = sortedList[(int)quotient];
+                decompressedArray[i] = key;
+
+                var (lowerBound, upperBound) = TransformationHelper.FindFirstAndLastRange(sortedList, key);
+                firstRange += lowerBound * groupWidth;
+                lastRange -= (lenght - i - 1 - upperBound) * groupWidth;
 
 
-                sortedArray[(int)quotient] = Int32.MaxValue;
-                sortedArray = sortedArray.AsParallel().WithDegreeOfParallelism(4).OrderBy(x => x).ToArray();
+                sortedList.RemoveAt((int)quotient);
             }
-            */
-            return null;
+
+            return decompressedArray;
         }
     }
 
